@@ -1,34 +1,49 @@
-#include <iostream>
 #include <algorithm>
+#include <iostream>
 #include <vector>
+#include <tuple>
+#include "filter.h"
 
-std::vector<std::string> split(const std::string &str, char d)
-{
-    std::vector<std::string> r;
-
-    std::string::size_type start = 0;
-    std::string::size_type stop = str.find_first_of(d);
-    while(stop != std::string::npos)
-    {
-        r.push_back(str.substr(start, stop - start));
-
-        start = stop + 1;
-        stop = str.find_first_of(d, start);
-    }
-
-    r.push_back(str.substr(start));
-
-    return r;
+static std::ostream &operator<<(std::ostream &os, const ip_t &ip) {
+    os << ip[0] << '.' << ip[1] << '.' << ip[2] << '.' << ip[3];
+    return os;
 }
 
 int main(int argc, char const *argv[]) {
-    try
-    {
+    try {
+        ip_pool_t ip_pool = get_ip_pool(std::cin);
+        std::sort(ip_pool.begin(), ip_pool.end(), std::greater<decltype(ip_pool.at(0))>());
 
+        // Выводим весь список.
+        std::for_each(ip_pool.cbegin(), ip_pool.cend(), [](ip_t ip) {
+            std::cout << ip << std::endl;
+        });
+
+        // Выводим все ip в которых первый байт = 1.
+        std::for_each(ip_pool.cbegin(), ip_pool.cend(), [](ip_t ip) {
+            params_t vec{std::make_tuple(0, 1)};
+            if (check_and(ip, vec))
+                std::cout << ip << std::endl;
+        });
+
+        // Выводим все ip в которых первый байт = 46, а второй = 70.
+        std::for_each(ip_pool.cbegin(), ip_pool.cend(), [](ip_t ip) {
+            params_t vec{std::make_tuple(0, 46), std::make_tuple(1, 70)};
+            if (check_and(ip, vec))
+                std::cout << ip << std::endl;
+
+        });
+
+        // Выводим все ip в которых хотя бы один байт равет 46.
+        std::for_each(ip_pool.cbegin(), ip_pool.cend(), [](ip_t ip) {
+            if (check_any(ip, 46)) {
+                std::cout << ip << std::endl;
+            }
+        });
     }
-    catch(const std::exception &e)
-    {
+    catch (const std::exception &e) {
         std::cerr << e.what() << std::endl;
     }
+
     return 0;
 }

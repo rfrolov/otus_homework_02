@@ -6,7 +6,7 @@ else()
     project(ip_filter VERSION 0.0.1)
 endif()
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} main.cpp filter.cpp filter.h)
 
 set_target_properties(
         ${PROJECT_NAME} PROPERTIES
