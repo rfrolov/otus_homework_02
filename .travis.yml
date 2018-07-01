@@ -1,5 +1,11 @@
 language: cpp
-before_script:
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-7
+    - g++-7
 script:
   - cmake .
   - cmake --build .
