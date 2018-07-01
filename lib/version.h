@@ -1,3 +1,0 @@
-#pragma ones
-
-int version();
