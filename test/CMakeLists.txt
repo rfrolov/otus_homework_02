@@ -6,7 +6,7 @@ else()
     project(tests VERSION 0.0.1)
 endif()
 
-add_subdirectory(googletest)
+add_subdirectory(googletest EXCLUDE_FROM_ALL)
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
 add_executable(${PROJECT_NAME} test_main.cpp)
