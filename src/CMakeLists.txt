@@ -13,6 +13,7 @@ set_target_properties(
         CXX_STANDARD 14
         CXX_STANDARD_REQUIRED ON
         COMPILE_OPTIONS -Wpedantic -Wall -Wextra
+        COMPILE_FLAGS -O2
 )
 
 target_link_libraries(${PROJECT_NAME} version)

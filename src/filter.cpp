@@ -32,7 +32,8 @@ ip_pool_t get_ip_pool(std::istream &inputStream) {
         }
 
         ip_t v;
-        std::for_each(ip.cbegin(), ip.cend(), [&v](std::string str) {
+
+        for (const auto &str: ip) {
             int i;
             try {
                 i = std::stoi(str);
@@ -44,7 +45,7 @@ ip_pool_t get_ip_pool(std::istream &inputStream) {
             if (i >= 0 && i <= 255) {
                 v.push_back(i);
             }
-        });
+        }
 
         if (v.size() == 4) {
             result.push_back(v);
@@ -56,24 +57,26 @@ ip_pool_t get_ip_pool(std::istream &inputStream) {
 
 bool check_and(const ip_t &ip, const params_t &params) {
     bool result = true;
-    std::for_each(params.cbegin(), params.cend(), [&](auto &param) {
-        int index = 0;
-        int value = 0;
+
+    for (const auto &param: params) {
+        int index;
+        int value;
 
         std::tie(index, value) = param;
         if (ip.at(index) != value) {
             result = false;
         }
-    });
+    }
     return result;
 }
 
 bool check_any(const ip_t &ip, int value) {
     bool result = false;
-    std::for_each(ip.cbegin(), ip.cend(), [value, &result](auto &v) {
+
+    for (const auto &v: ip) {
         if (v == value) {
             result = true;
         }
-    });
+    }
     return result;
 }
